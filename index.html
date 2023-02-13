@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/index.css">
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+    <header>
+        <h1>Olá mundo!</h1>
+    </header>
+    <form>
+        <label for="diaDaTarefa">Dia:</label><input type="number" name="diaDaTarefa" id="diaDaTarefa"><br>
+        <select name="selecaoHorario" id="selecaoHorario">
+            <option value="semHorario">Sem Horário</option>
+            <option value="manha">Manhã</option>
+            <option value="tarde">Tarde</option>
+            <option value="noite">Noite</option>
+        </select>
+        <textarea name="detalhesDaTarefa" id="detalhesDaTarefa" cols="30" rows="10" placeholder="Escreva os detalhes aqui..."></textarea>
+        <button type="submit" id="botaoSubmit">Criar Tarefa</button>
+    </form>
+    <main id="listaDasTarefas">
+        
+    </main>
+    <script src="script/main.js"></script>
+</body>
+</html>
+
+<!-- Criar um opção para ver os detalhes de cada tarefa quando clicar ver os detalhes -->
