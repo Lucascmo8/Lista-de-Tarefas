@@ -1,0 +1,161 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+:root{
+    --borderRadius-pequeno: 8px;
+    --borderRadius-medio: 16px;
+
+    --backgroundColor-verde:rgb(0, 170, 0);
+    --backgroundColor-verdeHover:rgb(0, 170, 0);
+}
+
+body{
+    background-color: rgb(54, 17, 89);
+    color: #faebd7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form{
+    height: 280px;
+    width: 350px;
+    padding: 16px;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: white;
+    color:#000 ;
+}
+
+/* Elementos Do form */
+/* Gerais */
+form,
+#diaDaTarefa,
+#selecaoHorario,
+#tituloDaTarefa,
+#detalhesDaTarefa,
+#botaoSubmit{
+    border: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.401);
+    font-size: 18px;
+    border-radius: var(--borderRadius-pequeno);
+}
+
+#selecaoHorario,
+#botaoSubmit{
+    cursor: pointer;
+}
+#diaInputLabel #diaDaTarefa,
+#divDiaHorario select,
+#tituloDaTarefa,
+#detalhesDaTarefa{
+    padding: 8px;
+}
+
+/* Primeira linha do form */
+
+#divDiaHorario,
+#diaInputLabel,
+#tituloInputLabel{
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+}
+
+#divDiaHorario{
+    gap:8px;
+    justify-content: space-between;
+}
+
+#diaInputLabel{
+    gap: 4px;
+}
+
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+}
+
+#diaInputLabel #diaDaTarefa{
+    width: 40%;
+    text-align: center;
+}
+
+/* Fim Primeira linha do form */
+
+/* segunda linha do form */
+
+#tituloInputLabel{
+    font-size: 22px;
+    align-items: center;
+    gap: 4px;
+}
+
+#tituloDaTarefa{
+    width: 100%;
+    text-align: center;
+}
+
+/* Fim segunda linha do form */
+
+/* terceira linha do form */
+
+#detalhesDaTarefa{
+    height: 70px;
+    width: 100%;
+    resize: none;
+}
+
+/* fim terceira linha do form */
+
+/* Botão submit form */
+
+#botaoSubmit{
+    height: 30px;
+    width: 100%;
+    background-color:var(--backgroundColor-verde) ;
+    color: #fff;
+    transition: .5s ease-in-out;
+    font-weight: bold;
+}
+
+#botaoSubmit:hover{
+    background-color: var(--backgroundColor-verdeHover);
+    transform: scale(1.02);
+}
+
+/* Fim do Form */
+
+/* Começo da lista */
+
+#listaDasTarefas{
+    display: flex;
+    flex-direction: column;
+}
+
+#listaDeDias{
+    display: flex;
+    align-items: center;
+    gap:2px ;
+    width: 90vw;
+    background-color: #fff;
+    color: #000;
+    padding:8px;
+    border-radius: 8px 8px 0px 0px;
+    overflow-x: scroll;
+    box-sizing: border-box;
+}
+
+#listaDeDias li{
+    list-style: none;
+    padding: 10px;
+}
+
+#listaDeDias li:hover{
+    background-color: gray;
+}

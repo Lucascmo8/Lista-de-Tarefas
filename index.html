@@ -5,24 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/mobile.css">
     <title>Lista de Tarefas</title>
 </head>
 <body>
     <header>
-        <h1>Olá mundo!</h1>
+        <h1>Minha lista de tarefas</h1>
     </header>
     <form>
-        <label for="diaDaTarefa">Dia:</label><input type="number" name="diaDaTarefa" id="diaDaTarefa"><br>
-        <select name="selecaoHorario" id="selecaoHorario">
-            <option value="semHorario">Sem Horário</option>
-            <option value="manha">Manhã</option>
-            <option value="tarde">Tarde</option>
-            <option value="noite">Noite</option>
-        </select>
+        <div id="divDiaHorario">
+            <div id="diaInputLabel">
+                <label for="diaDaTarefa">Dia: </label>
+                <input type="number" name="diaDaTarefa" id="diaDaTarefa">
+            </div>
+            <select name="selecaoHorario" id="selecaoHorario">
+                <option value="semHorario">Sem Horário</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="noite">Noite</option>
+            </select>
+        </div>
+
+        <div id="tituloInputLabel">
+            <label for="tituloDaTarefa">Titulo: </label>
+            <input type="text" name="tituloDaTarefa" id="tituloDaTarefa">
+        </div>
         <textarea name="detalhesDaTarefa" id="detalhesDaTarefa" cols="30" rows="10" placeholder="Escreva os detalhes aqui..."></textarea>
         <button type="submit" id="botaoSubmit">Criar Tarefa</button>
     </form>
     <main id="listaDasTarefas">
+        <ul id="listaDeDias">
+            <li>Dia 0</li>
+            <li>Dia 1</li>
+            <li>Dia 2</li>
+            <li>Dia 3</li>
+            <li>Dia 4</li>
+        </ul>
         
     </main>
     <script src="script/main.js"></script>
@@ -30,3 +48,16 @@
 </html>
 
 <!-- Criar um opção para ver os detalhes de cada tarefa quando clicar ver os detalhes -->
+<!-- Ideia do projeto é uma lista de tarefas -->
+<!-- Onde terá um botão para criar a tarefa -->
+<!-- Abaixo um menu rotativo rotativo com cada dia de tarefas onde irar filtrar
+        todas as tarefas pelo seus respectivos dias
+ -->
+ <!-- abaixo de cada dia mostar as tarefas dessa forma começando da 
+    esquerda para a direita:
+        uma checkbox| o titulo| Alterar a tarefa| Excluir tarefa
+            ao clicar mostrar os detalhes dessa tarefa-->
+
+            <!-- ideia extra deixar o usuario personalizar as cores:
+            do background como os das letras -->
+            <!-- deixar a pessoa colocar o titulo -->

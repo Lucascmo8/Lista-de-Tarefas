@@ -1,0 +1,9 @@
+@media (max-width:425px) {
+    form{
+        width: 95vw;
+    }
+
+    #detalhesDaTarefa{
+        width: 100%;
+    }
+}
