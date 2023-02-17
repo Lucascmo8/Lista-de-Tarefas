@@ -1,3 +1,4 @@
+'use strict'
 // Pegando os itens do form e o form
 let form = document.querySelector("form")
 let inputDiaDaTarefa = document.getElementById("diaDaTarefa")
@@ -8,20 +9,56 @@ let botaoSubmit = document.getElementById("botaoSubmit")
 
 // Pegando o main e os seus elementos
 let listaDasTarefas = document.getElementById("listaDasTarefas")
-
 // Anulando o submit do form
 form.addEventListener("submit", function criarTarefa(event) {
     event.preventDefault()
     let tarefa = {
-        dia: inputDiaDaTarefa.value,
+        dia: verificarZeroNaFrenteDodia(),
         titulo: inputTituloDaTarefa.value,
         horario: selectSelecaoHorario.value,
         detalhes: textAreaDetalhesDaTarefa.value,
+        id: novoId()
     }
 
     adicionarTarefa(tarefa)
-    mostrar()
+    adicionarDiasAoMenu()
+    mostrar(tarefa.dia)
+    limparForm()
 })
+// Função para verificar se o dia tem 0 na frente
+
+function verificarZeroNaFrenteDodia(){
+    let separarDiaValue = inputDiaDaTarefa.value.split("")
+    
+    for(let i = 0; i <separarDiaValue.length;i++){
+        if(inputDiaDaTarefa.value.length > 1 && separarDiaValue[0] == 0){
+            separarDiaValue.shift()
+        }    
+    }
+    return separarDiaValue.join("")
+}
+// Criar id para cada tarefa
+function criarId(index){
+    return localStorage.setItem("id",JSON.stringify(index))
+}
+
+function novoId(){
+    let ids =  JSON.parse(localStorage.getItem('id')) ?? []
+    ids++
+    console.log(ids)
+    criarId(ids)
+    return ids - 1
+}
+
+
+
+// Função para limpar o form
+function limparForm(){
+        inputDiaDaTarefa.value  = ''
+        inputTituloDaTarefa.value  = ''
+        selectSelecaoHorario.value  = ''
+        textAreaDetalhesDaTarefa.value  = ''
+}
 
 // Funções para adicionar a tarefa
 function adicionarTarefa(tarefa) {
@@ -38,20 +75,26 @@ function adicionarClienteLocalStorage(tarefas) {
 function pegarTarefasLocalStorage() {
     return JSON.parse(localStorage.getItem('tarefas')) ?? []
 }
+let paginas = document.getElementById("paginas")
 
-async function mostrar(diaDaqui) {
+async function mostrar(valor) {
     let verTarefas = await pegarTarefasLocalStorage()
 
-    // verTarefas.forEach(tarefa => {
-    //     listaDasTarefas.innerHTML += `
-    //     <div>
-    //         <h2>Dia:${tarefa.dia[0]}</h2>
-    //         <h3>${tarefa.titulo[0]}</h3>
-    //         <p>Horario:${tarefa.horario[0]}</p>
-    //         <p>Sobre:${tarefa.detalhes[0]}</p>
-    //     </div>`
-    // });
+    let tarefasFiltradasPorDia = verTarefas.filter(tarefa => tarefa.dia == valor)
+    paginas.innerHTML = ``
+    tarefasFiltradasPorDia.forEach((tarefa,index) => {
+        paginas.innerHTML += `
+        <div class="tarefas">
+            <h2>Dia:${tarefa.dia}</h2>
+            <h3>${tarefa.titulo}</h3>
+            <p>Horario:${tarefa.horario}</p>
+            <p>Sobre:${tarefa.detalhes}</p>
+            <button type="button" data-acao="editar-${tarefa.id}">Editar</button>
+            <button type="button" data-acao="deletar-${tarefa.id}">Excluir</button>
+        </div>`
+    });
 }
+
 
 // filtro por dia
 
@@ -66,7 +109,9 @@ async function filtrarDias() {
 }
 
 let listaDeDias = document.getElementById("listaDeDias")
+
 let abasNoMenu = []
+
 async function adicionarDiasAoMenu() {
     let diasCriados = await filtrarDias()
 
@@ -79,50 +124,57 @@ async function adicionarDiasAoMenu() {
     abasNoMenu.forEach(diaNoMenu=>{
         diaNoMenu.addEventListener("click",()=>{
             let valor = diaNoMenu.getAttribute("data-diaNoMenu")
-            esconderAbas()
-            destivarAbas(valor)
-            ativarSection(valor)
-            ativarAba(diaNoMenu)
+            mostrar(valor)
         })
     })
 }
 
 adicionarDiasAoMenu()
 
-let paginas = document.getElementById("paginas")
+// editar a tarefa e excluir
 
-async function criarSecaoPorDia(){
-    let verTarefas = pegarTarefasLocalStorage()
-    let diasCriados = await filtrarDias()
-    paginas.innerHTML = ``
-    diasCriados.forEach(dia =>{
-        paginas.innerHTML+=`
-        <section class="tarefa ativa" data-pagina="${dia}">${mostrar(dia)}</section>`
-    })
+
+document.querySelector("#listaDasTarefas>div")
+    .addEventListener("click", editarExcluir)
+
+function editarExcluir(event){
+    if(event.target.type == "button"){
+        
+        let [acao,index] = event.target.dataset.acao.split("-")
+
+        if(acao == "editar"){
+            editarTarefa(index)
+        }else{
+            let tarefa = pegarTarefasLocalStorage()[index]
+            console.log(index)
+            console.log(tarefa.titulo)
+            let resposta = confirm(`Tem certaza que deseja excluir a tarefa ${tarefa.titulo}`)
+            if(resposta){
+                excluirTarefa(index)
+            }
+        }
+    }
 }
 
-criarSecaoPorDia()
-
-// Mostrar tarefas por abas
-
-function esconderAbas(){
-    const paginas = document.querySelectorAll("[data-pagina]")
-
-    paginas.forEach(pagina => pagina.classList.add('hide'))
+function editarTarefa(index){
+    let tarefa = pegarTarefasLocalStorage()[index]
+    tarefa.id = index
+    completarForm(tarefa)
 }
 
-function destivarAbas() {
-    const paginas = document.querySelectorAll(`[data-pagina]`)
-    paginas.forEach(secao => secao.classList.remove("ativa"))
+function completarForm(tarefa){
+        inputDiaDaTarefa.value  = tarefa.dia
+        inputTituloDaTarefa.value  = tarefa.titulo
+        selectSelecaoHorario.value  = tarefa.horario
+        textAreaDetalhesDaTarefa.value  = tarefa.detalhes
+        // inputTituloDaTarefa.dataset.id  = tarefa.id
+        console.log(inputTituloDaTarefa.dataset.tarefa)
+
 }
 
-const ativarSection = (valor) => {
-    const pagina= document.querySelector(`[data-pagina="${valor}"]`)
-
-    pagina.classList.remove("hide")
-    pagina.classList.add("ativa")
-}
-
-function ativarAba(aba){
-    aba.classList.add("ativa")
+function excluirTarefa(index){
+    let tarefa = pegarTarefasLocalStorage()
+    tarefa.splice(index,1)
+    adicionarClienteLocalStorage(tarefa)
+    location.reload()
 }

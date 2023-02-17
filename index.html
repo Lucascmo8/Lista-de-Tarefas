@@ -16,9 +16,9 @@
         <div id="divDiaHorario">
             <div id="diaInputLabel">
                 <label for="diaDaTarefa">Dia: </label>
-                <input type="number" name="diaDaTarefa" id="diaDaTarefa">
+                <input type="number" name="diaDaTarefa" id="diaDaTarefa" required>
             </div>
-            <select name="selecaoHorario" id="selecaoHorario">
+            <select name="selecaoHorario" id="selecaoHorario" required>
                 <option value="semHorario">Sem Horário</option>
                 <option value="manha">Manhã</option>
                 <option value="tarde">Tarde</option>
@@ -28,7 +28,7 @@
 
         <div id="tituloInputLabel">
             <label for="tituloDaTarefa">Titulo: </label>
-            <input type="text" name="tituloDaTarefa" id="tituloDaTarefa">
+            <input type="text" name="tituloDaTarefa" id="tituloDaTarefa" required minlength="3">
         </div>
         <textarea name="detalhesDaTarefa" id="detalhesDaTarefa" cols="30" rows="10" placeholder="Escreva os detalhes aqui..."></textarea>
         <button type="submit" id="botaoSubmit">Criar Tarefa</button>
