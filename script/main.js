@@ -1,11 +1,11 @@
 'use strict'
 // Pegando os itens do form e o form
-let form = document.querySelector("form")
-let inputDiaDaTarefa = document.getElementById("diaDaTarefa")
-let inputTituloDaTarefa = document.getElementById("tituloDaTarefa")
-let selectSelecaoHorario = document.getElementById("selecaoHorario")
-let textAreaDetalhesDaTarefa = document.getElementById("detalhesDaTarefa")
-let botaoSubmit = document.getElementById("botaoSubmit")
+let formDeCriacao = document.getElementById("formDeCriacao")
+let inputCriarDiaDaTarefa = document.getElementById("criarDiaDaTarefa")
+let inputCriarTituloDaTarefa = document.getElementById("criarTituloDaTarefa")
+let selectCriarSelecaoHorario = document.getElementById("criarSelecaoHorario")
+let textAreaCriarDetalhesDaTarefa = document.getElementById("criarDetalhesDaTarefa")
+let botaoCriarTarefa = document.getElementById("botaoCriarTarefa")
 
 // Pegando o main e os seus elementos
 let listaDasTarefas = document.getElementById("listaDasTarefas")
@@ -14,14 +14,14 @@ let abasNoMenu = []
 
 let btnLimparTodasAsTarefas = document.getElementById("limparTodasAsTarefas")
 
-// Anulando o submit do form
-form.addEventListener("submit", function criarTarefa(event) {
+// Anulando o submit do form de criacao
+formDeCriacao.addEventListener("submit", function criarTarefa(event) {
     event.preventDefault()
     let tarefa = {
-        dia: verificarZeroNaFrenteDodia(),
-        titulo: inputTituloDaTarefa.value,
-        horario: selectSelecaoHorario.value,
-        detalhes: textAreaDetalhesDaTarefa.value,
+        dia: verificarZeroNaFrenteDodia(inputCriarDiaDaTarefa.value),
+        titulo: inputCriarTituloDaTarefa.value,
+        horario: selectCriarSelecaoHorario.value,
+        detalhes: textAreaCriarDetalhesDaTarefa.value,
         id: novoId()
     }
 
@@ -29,11 +29,12 @@ form.addEventListener("submit", function criarTarefa(event) {
     adicionarDiasAoMenu()
     mostrar(tarefa.dia)
     limparForm()
+    formDeCriacao.classList.add("hide")
 })
 // Função para verificar se o dia tem 0 na frente
 
-function verificarZeroNaFrenteDodia(){
-    let separarDiaValue = Number(inputDiaDaTarefa.value)
+function verificarZeroNaFrenteDodia(dia){
+    let separarDiaValue = Number(dia)
     let valorReal = separarDiaValue * 1
     
     return valorReal
@@ -47,7 +48,6 @@ function criarId(index){
 function novoId(){
     let ids =  JSON.parse(localStorage.getItem('id')) ?? []
     ids++
-    // console.log(ids)
     criarId(ids)
     return ids - 1
 }
@@ -56,20 +56,20 @@ function novoId(){
 
 // Função para limpar o form
 function limparForm(){
-        inputDiaDaTarefa.value  = ''
-        inputTituloDaTarefa.value  = ''
-        selectSelecaoHorario.value  = ''
-        textAreaDetalhesDaTarefa.value  = ''
+        inputCriarDiaDaTarefa.value  = ''
+        inputCriarTituloDaTarefa.value  = ''
+        selectCriarSelecaoHorario.value  = ''
+        textAreaCriarDetalhesDaTarefa.value  = ''
 }
 
 // Funções para adicionar a tarefa
 function adicionarTarefa(tarefa) {
     let tarefas = pegarTarefasLocalStorage();
     tarefas.push(tarefa)
-    adicionarClienteLocalStorage(tarefas)
+    adicionarTarefaLocalStorage(tarefas)
 }
 
-function adicionarClienteLocalStorage(tarefas) {
+function adicionarTarefaLocalStorage(tarefas) {
     return localStorage.setItem("tarefas", JSON.stringify(tarefas))
 }
 
@@ -133,6 +133,7 @@ adicionarDiasAoMenu()
 
 // editar a tarefa e excluir
 
+let idTarefa = undefined
 
 document.querySelector("#listaDasTarefas>div")
     .addEventListener("click", editarExcluir)
@@ -141,10 +142,12 @@ function editarExcluir(event){
     if(event.target.type == "button"){
         
         let [acao,index] = event.target.dataset.acao.split("-")
-        let idTarefa = pegarIndexDaTarefa(index)
+        idTarefa = pegarIndexDaTarefa(index)
+        console.log(`${idTarefa} esse é o id da tarefa`)
 
         if(acao == "editar"){
             editarTarefa(idTarefa)
+            formEditarTarefa.classList.remove("hide")
         }else{
             let tarefa = pegarTarefasLocalStorage()[idTarefa]
             let resposta = confirm(`Tem certaza que deseja excluir a tarefa ${tarefa.titulo}`)
@@ -157,22 +160,24 @@ function editarExcluir(event){
 
 function editarTarefa(index){
     let tarefa = pegarTarefasLocalStorage()[index]
+    console.log(index)
+    console.log(tarefa)
     tarefa.id = index
-    console.log(`isso aqui ${tarefa.id}`)
+    console.log(tarefa.id)
     completarForm(tarefa)
 }
 
 function completarForm(tarefa){
-        inputDiaDaTarefa.value  = tarefa.dia
-        inputTituloDaTarefa.value  = tarefa.titulo
-        selectSelecaoHorario.value  = tarefa.horario
-        textAreaDetalhesDaTarefa.value  = tarefa.detalhes
+        inputEditarDiaDaTarefa.value  = tarefa.dia
+        inputEditarTituloDaTarefa.value  = tarefa.titulo
+        selectEditarSelecaoHorario.value  = tarefa.horario
+        textAreaEditarDetalhesDaTarefa.value  = tarefa.detalhes
 }
 
 function excluirTarefa(index){
     let tarefa = pegarTarefasLocalStorage()
     tarefa.splice(index,1)
-    adicionarClienteLocalStorage(tarefa)
+    adicionarTarefaLocalStorage(tarefa)
     location.reload()
 }
 
@@ -190,3 +195,36 @@ btnLimparTodasAsTarefas.addEventListener("click",()=>{
         location.reload()
     }
 })
+
+// Form de editar Tarefa
+
+// Elementos do Form editar tarefas
+let formEditarTarefa = document.getElementById("formEditarTarefa")
+let inputEditarDiaDaTarefa = document.getElementById("editarDiaDaTarefa")
+let inputEditarTituloDaTarefa = document.getElementById("editarTituloDaTarefa")
+let selectEditarSelecaoHorario = document.getElementById("editarSelecaoHorario")
+let textAreaEditarDetalhesDaTarefa = document.getElementById("editarDetalhesDaTarefa")
+let botaoEditarTarefa = document.getElementById("botaoEditarTarefa")
+
+// função para Editar o form
+formEditarTarefa.addEventListener("submit",(event)=>{
+    event.preventDefault()
+    let verClientes = pegarTarefasLocalStorage()
+    let tarefaEditada = {
+        dia: verificarZeroNaFrenteDodia(inputEditarDiaDaTarefa.value),
+        titulo: inputEditarTituloDaTarefa.value,
+        horario: selectEditarSelecaoHorario.value,
+        detalhes: textAreaEditarDetalhesDaTarefa.value,
+    }
+    verClientes[idTarefa] = tarefaEditada
+    adicionarTarefaLocalStorage(verClientes)
+
+    location.reload()
+})
+
+// funções para abrir os form
+
+let botaoAbrirCriarForm = document.getElementById("botaoAbrirCriarForm")
+console.log(botaoAbrirCriarForm)
+
+botaoAbrirCriarForm.addEventListener("click",()=>{formDeCriacao.classList.remove("hide")})

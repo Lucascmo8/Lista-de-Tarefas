@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,17 +9,18 @@
     <link rel="stylesheet" href="style/mobile.css">
     <title>Lista de Tarefas</title>
 </head>
+
 <body>
     <header>
-        <!-- <h1>Minha lista de tarefas</h1> -->
+        <h1>Minha lista de tarefas</h1>
     </header>
-    <form>
-        <div id="divDiaHorario">
-            <div id="diaInputLabel">
-                <label for="diaDaTarefa">Dia: </label>
-                <input type="number" name="diaDaTarefa" id="diaDaTarefa" required>
+    <form id="formDeCriacao" class="hide">
+        <div class="divDiaHorario">
+            <div class="diaInputLabel">
+                <label for="criarDiaDaTarefa">Dia: </label>
+                <input type="number" name="criarDiaDaTarefa" id="criarDiaDaTarefa" class="diaDaTarefa" required>
             </div>
-            <select name="selecaoHorario" id="selecaoHorario" required>
+            <select name="selecaoHorario" id="criarSelecaoHorario" class="selectHorario" required>
                 <option value="semHorario">Sem Horário</option>
                 <option value="manha">Manhã</option>
                 <option value="tarde">Tarde</option>
@@ -26,24 +28,53 @@
             </select>
         </div>
 
-        <div id="tituloInputLabel">
-            <label for="tituloDaTarefa">Titulo: </label>
-            <input type="text" name="tituloDaTarefa" id="tituloDaTarefa" required minlength="3">
+        <div class="tituloInputLabel">
+            <label for="criarTituloDaTarefa">Titulo: </label>
+            <input type="text" name="criarTituloDaTarefa" id="criarTituloDaTarefa" class="tituloDaTarefa" required
+                minlength="3">
         </div>
-        <textarea name="detalhesDaTarefa" id="detalhesDaTarefa" cols="30" rows="10" placeholder="Escreva os detalhes aqui..."></textarea>
-        <button type="submit" id="botaoSubmit">Criar Tarefa</button>
+        <textarea name="criarDetalhesDaTarefa" id="criarDetalhesDaTarefa" class="detalhesDaTarefa" cols="30" rows="10"
+            placeholder="Escreva os detalhes aqui..."></textarea>
+        <button type="submit" id="botaoCriarTarefa" class="botaoSubmit">Criar Tarefa</button>
     </form>
-    
+    <!-- Segundo Form -->
+    <form id="formEditarTarefa" class="hide">
+        <div class="divDiaHorario">
+            <div class="diaInputLabel">
+                <label for="editarDiaDaTarefa">Dia: </label>
+                <input type="number" name="editarDiaDaTarefa" id="editarDiaDaTarefa" class="diaDaTarefa" required>
+            </div>
+            <select name="selecaoHorario" id="editarSelecaoHorario" class="selectHorario" required>
+                <option value="semHorario">Sem Horário</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="noite">Noite</option>
+            </select>
+        </div>
+
+        <div class="tituloInputLabel">
+            <label for="editarTituloDaTarefa">Titulo: </label>
+            <input type="text" name="editarTituloDaTarefa" id="editarTituloDaTarefa" class="tituloDaTarefa" required
+                minlength="3">
+        </div>
+        <textarea name="editarDetalhesDaTarefa" id="editarDetalhesDaTarefa" class="detalhesDaTarefa" cols="30" rows="10"
+            placeholder="Escreva os detalhes aqui..."></textarea>
+        <button type="submit" id="botaoEditarTarefa" class="botaoSubmit">Editar Tarefa</button>
+    </form>
     <main id="listaDasTarefas">
+        <aside>
+            <button id="botaoAbrirCriarForm">Criar Tarefa</button>
+        </aside>
         <menu id="listaDeDias">
         </menu>
         <div id="paginas">
         </div>
     </main>
     <button id="limparTodasAsTarefas">Limpar Todas as tarefas</button>
-    
+
     <script src="script/main.js"></script>
 </body>
+
 </html>
 
 <!-- Criar um opção para ver os detalhes de cada tarefa quando clicar ver os detalhes -->
@@ -52,11 +83,11 @@
 <!-- Abaixo um menu rotativo rotativo com cada dia de tarefas onde irar filtrar
         todas as tarefas pelo seus respectivos dias
  -->
- <!-- abaixo de cada dia mostar as tarefas dessa forma começando da 
+<!-- abaixo de cada dia mostar as tarefas dessa forma começando da 
     esquerda para a direita:
         uma checkbox| o titulo| Alterar a tarefa| Excluir tarefa
             ao clicar mostrar os detalhes dessa tarefa-->
 
-            <!-- ideia extra deixar o usuario personalizar as cores:
+<!-- ideia extra deixar o usuario personalizar as cores:
             do background como os das letras -->
-            <!-- deixar a pessoa colocar o titulo -->
+<!-- deixar a pessoa colocar o titulo -->
