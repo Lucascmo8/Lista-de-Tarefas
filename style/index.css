@@ -148,8 +148,9 @@ input[type=number]::-webkit-inner-spin-button {
     color: #000;
     padding:8px;
     border-radius: 8px 8px 0px 0px;
-    /* overflow-x: scroll;
-    box-sizing: border-box; */
+    overflow-x: scroll;
+    overflow-y: hidden;
+    box-sizing: border-box;
 }
 
 .diaNoMenu{

@@ -9,6 +9,11 @@ let botaoSubmit = document.getElementById("botaoSubmit")
 
 // Pegando o main e os seus elementos
 let listaDasTarefas = document.getElementById("listaDasTarefas")
+let paginas = document.getElementById("paginas")
+let abasNoMenu = []
+
+let btnLimparTodasAsTarefas = document.getElementById("limparTodasAsTarefas")
+
 // Anulando o submit do form
 form.addEventListener("submit", function criarTarefa(event) {
     event.preventDefault()
@@ -28,15 +33,12 @@ form.addEventListener("submit", function criarTarefa(event) {
 // Função para verificar se o dia tem 0 na frente
 
 function verificarZeroNaFrenteDodia(){
-    let separarDiaValue = inputDiaDaTarefa.value.split("")
+    let separarDiaValue = Number(inputDiaDaTarefa.value)
+    let valorReal = separarDiaValue * 1
     
-    for(let i = 0; i <separarDiaValue.length;i++){
-        if(inputDiaDaTarefa.value.length > 1 && separarDiaValue[0] == 0){
-            separarDiaValue.shift()
-        }    
-    }
-    return separarDiaValue.join("")
+    return valorReal
 }
+
 // Criar id para cada tarefa
 function criarId(index){
     return localStorage.setItem("id",JSON.stringify(index))
@@ -45,7 +47,7 @@ function criarId(index){
 function novoId(){
     let ids =  JSON.parse(localStorage.getItem('id')) ?? []
     ids++
-    console.log(ids)
+    // console.log(ids)
     criarId(ids)
     return ids - 1
 }
@@ -75,14 +77,13 @@ function adicionarClienteLocalStorage(tarefas) {
 function pegarTarefasLocalStorage() {
     return JSON.parse(localStorage.getItem('tarefas')) ?? []
 }
-let paginas = document.getElementById("paginas")
 
 async function mostrar(valor) {
     let verTarefas = await pegarTarefasLocalStorage()
 
     let tarefasFiltradasPorDia = verTarefas.filter(tarefa => tarefa.dia == valor)
     paginas.innerHTML = ``
-    tarefasFiltradasPorDia.forEach((tarefa,index) => {
+    tarefasFiltradasPorDia.forEach(tarefa => {
         paginas.innerHTML += `
         <div class="tarefas">
             <h2>Dia:${tarefa.dia}</h2>
@@ -110,7 +111,6 @@ async function filtrarDias() {
 
 let listaDeDias = document.getElementById("listaDeDias")
 
-let abasNoMenu = []
 
 async function adicionarDiasAoMenu() {
     let diasCriados = await filtrarDias()
@@ -141,16 +141,15 @@ function editarExcluir(event){
     if(event.target.type == "button"){
         
         let [acao,index] = event.target.dataset.acao.split("-")
+        let idTarefa = pegarIndexDaTarefa(index)
 
         if(acao == "editar"){
-            editarTarefa(index)
+            editarTarefa(idTarefa)
         }else{
-            let tarefa = pegarTarefasLocalStorage()[index]
-            console.log(index)
-            console.log(tarefa.titulo)
+            let tarefa = pegarTarefasLocalStorage()[idTarefa]
             let resposta = confirm(`Tem certaza que deseja excluir a tarefa ${tarefa.titulo}`)
             if(resposta){
-                excluirTarefa(index)
+                excluirTarefa(idTarefa)
             }
         }
     }
@@ -159,6 +158,7 @@ function editarExcluir(event){
 function editarTarefa(index){
     let tarefa = pegarTarefasLocalStorage()[index]
     tarefa.id = index
+    console.log(`isso aqui ${tarefa.id}`)
     completarForm(tarefa)
 }
 
@@ -167,9 +167,6 @@ function completarForm(tarefa){
         inputTituloDaTarefa.value  = tarefa.titulo
         selectSelecaoHorario.value  = tarefa.horario
         textAreaDetalhesDaTarefa.value  = tarefa.detalhes
-        // inputTituloDaTarefa.dataset.id  = tarefa.id
-        console.log(inputTituloDaTarefa.dataset.tarefa)
-
 }
 
 function excluirTarefa(index){
@@ -178,3 +175,18 @@ function excluirTarefa(index){
     adicionarClienteLocalStorage(tarefa)
     location.reload()
 }
+
+function pegarIndexDaTarefa(codigo){
+    let verTarefas = pegarTarefasLocalStorage()
+    return verTarefas.findIndex(tarefa => tarefa.id == codigo)
+}
+
+// limpar Todas As Tarefas
+
+btnLimparTodasAsTarefas.addEventListener("click",()=>{
+    let resposta = confirm(`Tem certaza que deseja excluir todas as tarefas?`)
+    if(resposta){
+        localStorage.clear()
+        location.reload()
+    }
+})
