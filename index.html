@@ -14,44 +14,52 @@
     <header>
         <h1>Minha lista de tarefas</h1>
     </header>
-    <form id="formDeCriacao" class="hide">
-        <div class="divDiaHorario">
-            <div class="diaInputLabel">
-                <label for="criarDiaDaTarefa">Dia: </label>
-                <input type="number" name="criarDiaDaTarefa" id="criarDiaDaTarefa" class="diaDaTarefa" required>
+    <!-- form de criar tarefa -->
+        <form id="formDeCriacao" class="hide formularios">
+            <div>
+                <button id="botaoFecharFormCriarTarefa" class="botaoFecharForm">X</button>
             </div>
-            <select name="selecaoHorario" id="criarSelecaoHorario" class="selectHorario" required>
-                <option value="semHorario">Sem Horário</option>
-                <option value="manha">Manhã</option>
-                <option value="tarde">Tarde</option>
-                <option value="noite">Noite</option>
-            </select>
-        </div>
+            <div class="divDiaHorario">
+                <div class="diaInputLabel">
+                    <label for="criarDiaDaTarefa">Dia: </label>
+                    <input type="number" name="criarDiaDaTarefa" id="criarDiaDaTarefa" class="diaDaTarefa" min="0" required>
+                </div>
+                <select name="selecaoHorario" id="criarSelecaoHorario" class="selectHorario" required>
+                    <option value="semHorario">Sem Horário</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                </select>
+            </div>
+        
+            <div class="tituloInputLabel">
+                <label for="criarTituloDaTarefa">Titulo: </label>
+                <input type="text" name="criarTituloDaTarefa" id="criarTituloDaTarefa" class="tituloDaTarefa" required
+                    minlength="3">
+            </div>
+            <textarea name="criarDetalhesDaTarefa" id="criarDetalhesDaTarefa" class="detalhesDaTarefa" cols="30" rows="10"
+                placeholder="Escreva os detalhes aqui..."></textarea>
+            <button type="submit" id="botaoCriarTarefa" class="botaoSubmit">Criar Tarefa</button>
+        </form>
 
-        <div class="tituloInputLabel">
-            <label for="criarTituloDaTarefa">Titulo: </label>
-            <input type="text" name="criarTituloDaTarefa" id="criarTituloDaTarefa" class="tituloDaTarefa" required
-                minlength="3">
+    <!--  Form de Editar -->
+
+    <form id="formEditarTarefa" class="hide formularios">
+        <div>
+            <button id="botaoFecharFormEditarTarefa" class="botaoFecharForm">X</button>
         </div>
-        <textarea name="criarDetalhesDaTarefa" id="criarDetalhesDaTarefa" class="detalhesDaTarefa" cols="30" rows="10"
-            placeholder="Escreva os detalhes aqui..."></textarea>
-        <button type="submit" id="botaoCriarTarefa" class="botaoSubmit">Criar Tarefa</button>
-    </form>
-    <!-- Segundo Form -->
-    <form id="formEditarTarefa" class="hide">
         <div class="divDiaHorario">
             <div class="diaInputLabel">
                 <label for="editarDiaDaTarefa">Dia: </label>
-                <input type="number" name="editarDiaDaTarefa" id="editarDiaDaTarefa" class="diaDaTarefa" required>
+                <input type="number" name="editarDiaDaTarefa" id="editarDiaDaTarefa" class="diaDaTarefa" min="0" required>
             </div>
             <select name="selecaoHorario" id="editarSelecaoHorario" class="selectHorario" required>
-                <option value="semHorario">Sem Horário</option>
-                <option value="manha">Manhã</option>
-                <option value="tarde">Tarde</option>
-                <option value="noite">Noite</option>
+                <option value="Sem Horario">Sem Horário</option>
+                <option value="Manhã">Manhã</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noite">Noite</option>
             </select>
         </div>
-
         <div class="tituloInputLabel">
             <label for="editarTituloDaTarefa">Titulo: </label>
             <input type="text" name="editarTituloDaTarefa" id="editarTituloDaTarefa" class="tituloDaTarefa" required
@@ -76,18 +84,3 @@
 </body>
 
 </html>
-
-<!-- Criar um opção para ver os detalhes de cada tarefa quando clicar ver os detalhes -->
-<!-- Ideia do projeto é uma lista de tarefas -->
-<!-- Onde terá um botão para criar a tarefa -->
-<!-- Abaixo um menu rotativo rotativo com cada dia de tarefas onde irar filtrar
-        todas as tarefas pelo seus respectivos dias
- -->
-<!-- abaixo de cada dia mostar as tarefas dessa forma começando da 
-    esquerda para a direita:
-        uma checkbox| o titulo| Alterar a tarefa| Excluir tarefa
-            ao clicar mostrar os detalhes dessa tarefa-->
-
-<!-- ideia extra deixar o usuario personalizar as cores:
-            do background como os das letras -->
-<!-- deixar a pessoa colocar o titulo -->

@@ -6,11 +6,12 @@
 }
 
 :root{
-    --borderRadius-pequeno: 8px;
-    --borderRadius-medio: 16px;
+    --borderRadius-pequeno:4px;
+    --borderRadius-medio: 8px;
+    --borderRadius-grande: 16px;
 
     --backgroundColor-verde:rgb(0, 170, 0);
-    --backgroundColor-verdeHover:rgb(0, 170, 0);
+    --backgroundColor-verdeHover:rgb(6, 228, 6);
 }
 
 body{
@@ -21,17 +22,23 @@ body{
     align-items: center;
 }
 
-form{
-    height: 280px;
+header{
+    text-align: center;
+}
+
+.formularios{
+    height: 300px;
     width: 350px;
     padding: 16px;
     gap: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: white;
+    background-color: #fff;
     color:#000 ;
+    margin-top: 32px;
 }
+
 
 /* Elementos Do form */
 /* Gerais */
@@ -44,17 +51,18 @@ form,
     border: none;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.304);
     font-size: 18px;
-    border-radius: var(--borderRadius-pequeno);
+    border-radius: var(--borderRadius-medio);
 }
 
-.selectHorario,
-.botaoSubmit{
+input,button,select,menuitem,.tarefas,label{
     cursor: pointer;
 }
+
 .diaInputLabel .diaDaTarefa,
 .divDiaHorario select,
 .tituloDaTarefa,
-.detalhesDaTarefa{
+.detalhesDaTarefa,
+.detalhesDasTarefas{
     padding: 8px;
 }
 
@@ -115,18 +123,33 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* Botão submit form */
 
-.botaoSubmit{
+.botaoSubmit,#botaoAbrirCriarForm{
     height: 30px;
     width: 100%;
     background-color:var(--backgroundColor-verde) ;
     color: #fff;
     transition: .5s ease-in-out;
     font-weight: bold;
+    border: none;
+}
+
+#botaoAbrirCriarForm{
+    width: 25%;
+    float: right;
+    border-radius: 0px 10px;
+}
+
+#botaoAbrirCriarForm:hover{
+    background-color: var(--backgroundColor-verdeHover);
 }
 
 .botaoSubmit:hover{
     background-color: var(--backgroundColor-verdeHover);
     transform: scale(1.02);
+}
+
+#botaoEditarTarefa,.botaoEditar{
+    background-color: #0095ff;
 }
 
 /* Fim do Form */
@@ -136,6 +159,11 @@ input[type=number]::-webkit-inner-spin-button {
 #listaDasTarefas{
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 90vw;
 }
 
 #listaDeDias{
@@ -156,30 +184,83 @@ input[type=number]::-webkit-inner-spin-button {
 .diaNoMenu{
     padding: 10px;
     color: #000;
+    transition: .5s linear;
 }
 
 .diaNoMenu:hover{
-    background-color: gray;
+    background-color:#6a5acd;
+    color: #fff;
 }
 
 #paginas{
     background-color: #fff;
-    border-top: 2px solid black;
+    border-top: 2px solid #000;
     width: 100%;
     color: #000;
-    /* display: none; */
 }
 .hide{
     display: none;
 }
 
-.ativa{
-    display: flex;
-}
 
 .tarefas{
-    border-bottom: 1px solid black;
+    border-top: 1px solid #000;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: .2fr 1fr 1fr 1fr 1fr;
+    align-items: center;
     gap: 16px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+input[type=checkbox]{
+    accent-color: #29dd00;
+    width: 20px;
+    height: 20px;
+}
+
+input[type=checkbox]:checked ~ label{
+    text-decoration: line-through;
+}
+
+.botaoDaLista {
+    border: none;
+    padding: 8px;
+    color: #fff;
+    border-radius: var(--borderRadius-medio);
+}
+
+.botaoExcluir{
+    background-color: #ff0000;
+}
+
+
+/* Botao de Limpar todas as tarefas e fechar form */
+#limparTodasAsTarefas,.botaoFecharForm{
+    background-color: #ff0000;
+    color: #fff;
+    border: 2px solid #ff0000;
+    text-align: center;
+    font-weight: bolder;
+    transition: .5s linear;
+}
+
+#limparTodasAsTarefas{
+    padding: 10px;
+    border-radius: var(--borderRadius-grande);
+    margin-bottom: 10px;
+}
+
+#limparTodasAsTarefas:hover,.botaoFecharForm:hover{
+    background-color: #fff;
+    color: #ff0000;
+}
+
+.botaoFecharForm{
+    float: right;
+    padding: 4px;
+    width: 25px;
+    font-size: 20px;
+    border-radius: var(--borderRadius-pequeno);
 }

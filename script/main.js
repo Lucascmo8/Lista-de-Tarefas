@@ -1,5 +1,7 @@
 'use strict'
-// Pegando os itens do form e o form
+
+// Pegando os itens do form e o form de criação
+
 let formDeCriacao = document.getElementById("formDeCriacao")
 let inputCriarDiaDaTarefa = document.getElementById("criarDiaDaTarefa")
 let inputCriarTituloDaTarefa = document.getElementById("criarTituloDaTarefa")
@@ -14,7 +16,8 @@ let abasNoMenu = []
 
 let btnLimparTodasAsTarefas = document.getElementById("limparTodasAsTarefas")
 
-// Anulando o submit do form de criacao
+// Anulando o submit do form de criação
+
 formDeCriacao.addEventListener("submit", function criarTarefa(event) {
     event.preventDefault()
     let tarefa = {
@@ -24,13 +27,13 @@ formDeCriacao.addEventListener("submit", function criarTarefa(event) {
         detalhes: textAreaCriarDetalhesDaTarefa.value,
         id: novoId()
     }
-
     adicionarTarefa(tarefa)
     adicionarDiasAoMenu()
     mostrar(tarefa.dia)
     limparForm()
     formDeCriacao.classList.add("hide")
 })
+
 // Função para verificar se o dia tem 0 na frente
 
 function verificarZeroNaFrenteDodia(dia){
@@ -41,6 +44,7 @@ function verificarZeroNaFrenteDodia(dia){
 }
 
 // Criar id para cada tarefa
+
 function criarId(index){
     return localStorage.setItem("id",JSON.stringify(index))
 }
@@ -52,9 +56,8 @@ function novoId(){
     return ids - 1
 }
 
-
-
 // Função para limpar o form
+
 function limparForm(){
         inputCriarDiaDaTarefa.value  = ''
         inputCriarTituloDaTarefa.value  = ''
@@ -62,7 +65,8 @@ function limparForm(){
         textAreaCriarDetalhesDaTarefa.value  = ''
 }
 
-// Funções para adicionar a tarefa
+// Funções para adicionar a tarefa a lista
+
 function adicionarTarefa(tarefa) {
     let tarefas = pegarTarefasLocalStorage();
     tarefas.push(tarefa)
@@ -85,14 +89,14 @@ async function mostrar(valor) {
     paginas.innerHTML = ``
     tarefasFiltradasPorDia.forEach(tarefa => {
         paginas.innerHTML += `
-        <div class="tarefas">
-            <h2>Dia:${tarefa.dia}</h2>
-            <h3>${tarefa.titulo}</h3>
-            <p>Horario:${tarefa.horario}</p>
-            <p>Sobre:${tarefa.detalhes}</p>
-            <button type="button" data-acao="editar-${tarefa.id}">Editar</button>
-            <button type="button" data-acao="deletar-${tarefa.id}">Excluir</button>
-        </div>`
+        <div class="tarefas" data-mostrar="detalhes-${tarefa.id}">
+            <input type="checkbox" name="tarefa${tarefa.id}" id="tarefa${tarefa.id}">
+            <label for="tarefa${tarefa.id}" data-mostrar="detalhes-${tarefa.id}">${tarefa.titulo}</label>
+            <p data-mostrar="detalhes-${tarefa.id}">Horario: ${tarefa.horario}</p>
+            <button type="button" data-acao="editar-${tarefa.id}" class="botaoDaLista botaoEditar">Editar</button>
+            <button type="button" data-acao="deletar-${tarefa.id}" class="botaoDaLista botaoExcluir">Excluir</button>
+        </div>
+        <div id="detalhes${tarefa.id}" class="detalhesDasTarefas hide"><p>Detalhes: ${tarefa.detalhes}</p></div>`
     });
 }
 
@@ -133,21 +137,22 @@ adicionarDiasAoMenu()
 
 // editar a tarefa e excluir
 
-let idTarefa = undefined
+let idTarefa = 0
 
-document.querySelector("#listaDasTarefas>div")
-    .addEventListener("click", editarExcluir)
+document.querySelector("#listaDasTarefas>div").addEventListener("click", editarExcluir)
 
 function editarExcluir(event){
+    console.log(event.target)
+    
     if(event.target.type == "button"){
         
         let [acao,index] = event.target.dataset.acao.split("-")
         idTarefa = pegarIndexDaTarefa(index)
-        console.log(`${idTarefa} esse é o id da tarefa`)
 
         if(acao == "editar"){
             editarTarefa(idTarefa)
             formEditarTarefa.classList.remove("hide")
+            formDeCriacao.classList.add("hide")
         }else{
             let tarefa = pegarTarefasLocalStorage()[idTarefa]
             let resposta = confirm(`Tem certaza que deseja excluir a tarefa ${tarefa.titulo}`)
@@ -160,19 +165,10 @@ function editarExcluir(event){
 
 function editarTarefa(index){
     let tarefa = pegarTarefasLocalStorage()[index]
-    console.log(index)
-    console.log(tarefa)
     tarefa.id = index
-    console.log(tarefa.id)
     completarForm(tarefa)
 }
 
-function completarForm(tarefa){
-        inputEditarDiaDaTarefa.value  = tarefa.dia
-        inputEditarTituloDaTarefa.value  = tarefa.titulo
-        selectEditarSelecaoHorario.value  = tarefa.horario
-        textAreaEditarDetalhesDaTarefa.value  = tarefa.detalhes
-}
 
 function excluirTarefa(index){
     let tarefa = pegarTarefasLocalStorage()
@@ -206,7 +202,19 @@ let selectEditarSelecaoHorario = document.getElementById("editarSelecaoHorario")
 let textAreaEditarDetalhesDaTarefa = document.getElementById("editarDetalhesDaTarefa")
 let botaoEditarTarefa = document.getElementById("botaoEditarTarefa")
 
-// função para Editar o form
+// Completar form
+let idDaTarefaEditada = undefined
+
+function completarForm(tarefa){
+        inputEditarDiaDaTarefa.value  = tarefa.dia
+        inputEditarTituloDaTarefa.value  = tarefa.titulo
+        selectEditarSelecaoHorario.value  = tarefa.horario
+        textAreaEditarDetalhesDaTarefa.value  = tarefa.detalhes
+
+}
+
+// função para Editar tarefa
+
 formEditarTarefa.addEventListener("submit",(event)=>{
     event.preventDefault()
     let verClientes = pegarTarefasLocalStorage()
@@ -215,6 +223,7 @@ formEditarTarefa.addEventListener("submit",(event)=>{
         titulo: inputEditarTituloDaTarefa.value,
         horario: selectEditarSelecaoHorario.value,
         detalhes: textAreaEditarDetalhesDaTarefa.value,
+        id: idTarefa
     }
     verClientes[idTarefa] = tarefaEditada
     adicionarTarefaLocalStorage(verClientes)
@@ -225,6 +234,35 @@ formEditarTarefa.addEventListener("submit",(event)=>{
 // funções para abrir os form
 
 let botaoAbrirCriarForm = document.getElementById("botaoAbrirCriarForm")
-console.log(botaoAbrirCriarForm)
 
-botaoAbrirCriarForm.addEventListener("click",()=>{formDeCriacao.classList.remove("hide")})
+botaoAbrirCriarForm.addEventListener("click",()=>{
+    formDeCriacao.classList.remove("hide")
+    formEditarTarefa.classList.add("hide")
+})
+
+// Mostrar detalhes
+document.querySelector("#listaDasTarefas>div").addEventListener("click", mostrarDetalhes)
+
+function mostrarDetalhes(event){
+    console.log(event.target.dataset)
+    let [acao,index] = event.target.dataset.mostrar.split("-")
+    console.log(acao)
+    console.log(index)
+    if(acao == "detalhes"){
+        document.querySelector(`#listaDasTarefas>div>#detalhes${index}`).classList.toggle("hide")
+    }
+}
+
+// Fechar forms
+
+let botaoFecharFormCriarTarefa = document.getElementById("botaoFecharFormCriarTarefa")
+let botaoFecharFormEditarTarefa = document.getElementById("botaoFecharFormEditarTarefa")
+
+botaoFecharFormCriarTarefa.addEventListener("click",function(){
+    formDeCriacao.classList.add("hide")
+    limparForm()
+})
+
+botaoFecharFormEditarTarefa.addEventListener("click",function(){
+    formEditarTarefa.classList.add("hide")
+})

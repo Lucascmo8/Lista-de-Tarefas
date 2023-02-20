@@ -3,7 +3,7 @@
         width: 95vw;
     }
 
-    #detalhesDaTarefa{
-        width: 100%;
+    .tarefas{
+        grid-template-columns:1fr 1fr 1fr;
     }
 }
