@@ -1,11 +1,5 @@
-# Lista-de-Tarefas
-CRUD sobre Lista de tarefas usando LocalStorage para guardar os dados,
-
-
-
-
-
 <a href="https://lucascmo8.github.io/Lista-de-Tarefas/index.html" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+
 <h1>Lista de Tarefas</h1>
 
 <h2>Sobre o Projeto</h2>
